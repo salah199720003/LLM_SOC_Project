@@ -1,0 +1,77 @@
+{
+  "version": "0.4.0",
+  "tools": [
+    {
+      "name": "create_case",
+      "status": "active",
+      "responsibility": "Create an investigation case header. No evidence interpretation.",
+      "writes": "case metadata only",
+      "risk": "low",
+      "requires_approval": false
+    },
+    {
+      "name": "ingest_evidence",
+      "status": "active",
+      "responsibility": "Read a project-scoped file, compute SHA-256 and metadata, and register immutable evidence provenance. Content remains untrusted data.",
+      "writes": "case evidence metadata only",
+      "risk": "low",
+      "requires_approval": false
+    },
+    {
+      "name": "parse_events",
+      "status": "active",
+      "responsibility": "Parse supported evidence into normalized events with provenance. No compromise or maliciousness judgment.",
+      "writes": "derived case events only",
+      "risk": "low",
+      "requires_approval": false
+    },
+    {
+      "name": "query_events",
+      "status": "active",
+      "responsibility": "Run bounded structured filters over normalized case events. No arbitrary SQL, regex, shell, or executable query language.",
+      "writes": "none",
+      "risk": "low",
+      "requires_approval": false
+    },
+    {
+      "name": "extract_iocs",
+      "status": "active",
+      "responsibility": "Extract and normalize syntactic observables from selected events while preserving evidence references. Never label an indicator malicious by extraction alone.",
+      "writes": "derived observables only",
+      "risk": "low",
+      "requires_approval": false
+    },
+    {
+      "name": "build_timeline",
+      "status": "active",
+      "responsibility": "Order bounded normalized events by timezone-aware timestamps while preserving provenance.",
+      "writes": "none",
+      "risk": "low",
+      "requires_approval": false
+    },
+    {
+      "name": "attack_lookup",
+      "status": "active",
+      "responsibility": "Query a pinned local MITRE ATT&CK STIX snapshot and return official metadata. Never infer automatically that a technique occurred.",
+      "writes": "none",
+      "risk": "low",
+      "requires_approval": false
+    },
+    {
+      "name": "sigma_validate",
+      "status": "active",
+      "responsibility": "Validate one Sigma rule deterministically with pinned pySigma.",
+      "writes": "none",
+      "risk": "low",
+      "requires_approval": false
+    },
+    {
+      "name": "sigma_test",
+      "status": "active",
+      "responsibility": "Test one Sigma rule against explicit normalized case events using a bounded fail-closed matcher.",
+      "writes": "none",
+      "risk": "low",
+      "requires_approval": false
+    }
+  ]
+}

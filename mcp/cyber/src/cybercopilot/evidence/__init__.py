@@ -1,0 +1,1 @@
+"""Read-only evidence ingestion and provenance helpers."""
