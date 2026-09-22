@@ -1,9 +1,22 @@
-# Bonsai Demo
+# LLM SOC Project
 
-This repository combines the Bonsai local-model demo with a defensive SOC tool
-core in [`mcp/cyber`](mcp/cyber/README.md). The SOC module provides structured
-case analysis and tests; Bonsai supplies the local model runtime. Downloaded
-model weights and machine-specific configuration are kept out of Git.
+Run the **Bonsai 2 27B** model locally and use a separate, deterministic **SOC
+analysis module** to investigate imported security evidence. The Bonsai demo
+provides local chat, vision, and model tool calling. The module in
+[`mcp/cyber`](mcp/cyber/README.md) creates cases, parses Sysmon XML, queries and
+correlates events, extracts observables, and checks Sigma rules. It is a
+defensive investigation starter, not a finished autonomous SOC agent.
+
+The two parts run independently. Starting the Bonsai chat server does **not**
+automatically connect the SOC tools; use them from Python or attach their stdio
+MCP server to a compatible client. Model weights, case data, and local keys are
+downloaded or created on your machine and are not stored in this repository.
+
+| Goal | Start here |
+|------|------------|
+| Chat with Bonsai locally | [Quick Start](#quick-start) |
+| Analyze a Sysmon export | [SOC module guide](mcp/cyber/README.md) |
+| Connect other tools to the model | [Tools and MCP guide](TOOLS.md) |
 
 <p align="center">
   <img src="./assets/bonsai-logo.svg" width="280" alt="Bonsai">
@@ -68,8 +81,8 @@ Setting things up with an AI coding agent? Point it at [AGENTS.md](AGENTS.md), a
 ### macOS / Linux
 
 ```bash
-git clone https://github.com/PrismML-Eng/Bonsai-demo.git
-cd Bonsai-demo
+git clone https://github.com/salah199720003/LLM_SOC_Project.git
+cd LLM_SOC_Project
 ./setup.sh
 ```
 
@@ -95,8 +108,8 @@ more and most of the wait. Skip those with `BONSAI_OPENWEBUI=0` and
 ### Windows (PowerShell)
 
 ```powershell
-git clone https://github.com/PrismML-Eng/Bonsai-demo.git
-cd Bonsai-demo
+git clone https://github.com/salah199720003/LLM_SOC_Project.git
+cd LLM_SOC_Project
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\setup.ps1
 ```
@@ -106,6 +119,23 @@ Then start the server and open http://localhost:8080:
 ```powershell
 .\scripts\start_llama_server.ps1
 ```
+
+### Use the SOC module
+
+The SOC code accepts **imported Sysmon XML**; it does not collect events from
+endpoints. Install its Python dependencies and run its tests from the repository
+root:
+
+```powershell
+uv sync --project .\mcp\cyber --extra dev
+uv run --project .\mcp\cyber --extra dev python -m pytest .\mcp\cyber\tests
+```
+
+On macOS/Linux, use `mcp/cyber` paths instead of `mcp\cyber`. Follow the
+[SOC module guide](mcp/cyber/README.md) to import an XML export, create a case,
+and inspect the results. The module also exposes a stdio MCP server for clients
+that support one; the Bonsai web UI requires an HTTP bridge to use that server.
+An ATT&CK lookup additionally needs a local ATT&CK index, which is not bundled.
 
 ---
 

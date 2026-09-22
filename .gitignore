@@ -218,6 +218,8 @@ mlx/
 .bak
 mcp/cyber/mcp-config.json
 mcp/data/
+mcp/evidence/
+mcp/logs/
 .uv-cache/
 .pytest-temp*/
 .tmp/
